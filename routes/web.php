@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +16,25 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+// Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function () {
+    // Admin
+    Route::group([
+        'prefix' => 'admin',
+        'as' => 'admin.',
+        'middleware' => ['role:' . config('constants.role.admin')]
+    ], function () {
+        Route::get('home', 'HomeController@index')->name('home');
+    });
+    // Client
+    Route::group([
+        'prefix' => 'client',
+        'as' => 'client.',
+        'middleware' => ['role:' . config('constants.role.client')]
+    ], function () {
+        Route::get('/welcome', function () {
+            return view('welcome');
+        })->name('welcome');
+    });
+});
