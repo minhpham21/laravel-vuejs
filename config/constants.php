@@ -10,4 +10,8 @@ return [
         'client_admin' => 2,
         'client' => 3,
     ],
+    'status' => [
+        'private' => '0',
+        'public' => '1',
+    ],
 ];

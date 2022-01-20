@@ -25,7 +25,10 @@ Route::middleware('auth')->group(function () {
         'as' => 'admin.',
         'middleware' => ['role:' . config('constants.role.admin')]
     ], function () {
-        Route::get('home', 'HomeController@index')->name('home');
+        Route::get('/', function() {
+            dd('This is admin page');
+        });
+        Route::resource('categories', 'CategoryController');
     });
     // Client
     Route::group([
