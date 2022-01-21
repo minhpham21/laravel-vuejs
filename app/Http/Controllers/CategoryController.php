@@ -10,17 +10,17 @@ use Exception;
 
 class CategoryController extends Controller
 {
-    // public function __construct()
-    // {
-
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('id', 'asc')->get();
+        $request->flash();
+        $limit = (is_numeric($request->limit)) ? (int) $request->limit : 10;
+        $categories = Category::orderBy('id', 'asc')
+            ->paginate($limit);
+
         return view('category.index')
             ->with([
                 'categories' => $categories,
+                'total' => $categories->total(),
             ]);
     }
     

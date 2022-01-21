@@ -41,8 +41,17 @@
                         </div>
                         <div class="col-6">
                             <div class="float-right">
-                                
+                                <form action="" method="GET">
+                                    <select onchange="this.form.submit()" name="limit" class="form-control form-control-sm">
+                                        <option value="10" {{ old('limit') == 10 ? 'selected' : '' }}>10</option>
+                                        <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
+                                        <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
+                                    </select>
+                                </form>
                             </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <span class="text-secondary">{{trans_choice('common.title.total', $total)}}</span>
                         </div>
                     </div>
                     <table class="table table-striped">
@@ -72,13 +81,9 @@
                     </table>
                 </div>
                 <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-right">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
+                    <div class="pagination-sm m-0 float-right">
+                        {{ $categories->links() }}
+                    </div>
                 </div>
             </div>
             <!-- ./list -->
