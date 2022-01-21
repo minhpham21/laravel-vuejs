@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
             dd('This is admin page');
         });
         Route::resource('categories', 'CategoryController');
+        Route::put('category/{category}/active', 'UpdateActive')->name('categories.updateActive');
     });
     // Client
     Route::group([

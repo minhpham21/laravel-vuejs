@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Category as CategoryRequest;
 use App\Category;
 use Illuminate\Support\Facades\Session;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -38,6 +39,7 @@ class CategoryController extends Controller
             ]);            
             Session::flash('success', 'test session');
         } catch (Exception $e) {
+            report($e);
             Session::flash('error', 'test session');
         }
     }

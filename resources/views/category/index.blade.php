@@ -97,12 +97,15 @@
             .then((result) => {
                 Toast.fire({
                     icon: 'success',
-                    title: '{{Session::get('success')}}',
-                    color: '#28a745',
+                    title: "@lang('category.message.was_status_updated')",
                 });
             })
             .catch((err) => {
-                alert("Can't update status");
+                Toast.fire({
+                    icon: 'error',
+                    title: "@lang('category.message.try_again')",
+                });
+                // alert("Can't update status");
                 console.log(err);
             });
         }
