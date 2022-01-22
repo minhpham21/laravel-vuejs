@@ -30,19 +30,25 @@
             </div>
             <div class="form-group">
                 <label>@lang('common.title.description')</label>
-                <textarea name="description" class="form-control" rows="3" placeholder="{{ trans('common.title.description') }} ..." style="height: 100px; resize: none"></textarea>
+                <textarea name="description" class="form-control" rows="3" placeholder="{{ trans('common.title.description') }} ..." style="height: 100px; resize: none">{{old('description')}}</textarea>
                 @if ($errors->has('description'))
                     <span class="text-danger">{{$errors->first('description')}}</span>
                 @endif
             </div>
             <div class="form-group row">
                 <label class="col-3">@lang('common.title.active')</label>
-                <div class="col-9">
-                    <input id="active" name='active' type="checkbox" checked data-toggle="toggle"  data-width="80px" data-on="{{ trans('common.switch.1') }}" data-off="{{ trans('common.switch.0') }}" data-size="sm">
+                <div class="col-3 pl-0">
+                    <select class="custom-select custom-select-sm" name="active">
+                        @foreach (config('constants.status') as $statusValue)
+                            <option value="{{$statusValue}}" {{ $statusValue == old('active') ? "selected" : "" }}>@lang('common.switch.'.$statusValue)</option>
+                        @endforeach
+                    </select>
                 </div>
-                @if ($errors->has('active'))
-                    <span class="text-danger">{{$errors->first('active')}}</span>
-                @endif
+                <div class="col-12">
+                    @if ($errors->has('active'))
+                        <span class="text-danger">{{$errors->first('active')}}</span>
+                    @endif
+                </div>
             </div>
         </div>
         <div class="modal-footer">

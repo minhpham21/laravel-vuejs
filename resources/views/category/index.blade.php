@@ -35,7 +35,7 @@
                 <div class="card-body table-responsive">
                     <div class="row">
                         <div class="col-6">
-                            <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" data-toggle="modal" data-target="#modal-default">
+                            <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" data-toggle="modal" data-target="#modal-default" title="{{trans('common.button.create')}}">
                                 <i class="fas fa-plus-circle"></i>&nbsp;@lang('common.button.create')
                             </a>
                         </div>
@@ -57,10 +57,10 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center align-middle">#</th>
-                                <th class="text-center align-middle">@lang('common.title.title')</th>
-                                <th class="text-center align-middle">@lang('common.title.active')</th>
-                                <th class="text-center align-middle">@lang('common.title.action')</th>
+                                <th class="text-center align-middle" style="width: 15%;">#</th>
+                                <th class="text-center align-middle" style="width: 45%;">@lang('common.title.title')</th>
+                                <th class="text-center align-middle" style="width: 20%;">@lang('common.title.active')</th>
+                                <th class="text-center align-middle" style="width: 20%;">@lang('common.title.action')</th>
                             </tr>
                         </thead>
                         <tbody>

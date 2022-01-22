@@ -11,14 +11,6 @@ class Category extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        # code...
-        $this->merge([
-            'active' => (bool) $this->active,
-        ]);
-    }
-    
     public function rules()
     {
         return [
