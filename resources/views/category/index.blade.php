@@ -74,7 +74,11 @@
                                             <label class="custom-control-label" for="customSwitch_{{$category->id}}"></label>
                                         </div>
                                     </td>
-                                    <td></td>
+                                    <td class="text-center align-middle">
+                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" data-toggle="modal" data-target="#modal-default" title="{{ trans('common.button.edit') }}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\Category as CategoryRequest;
-use App\Category;
-use Illuminate\Support\Facades\Session;
 use Exception;
+use App\Category;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Category as CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -23,7 +25,7 @@ class CategoryController extends Controller
                 'total' => $categories->total(),
             ]);
     }
-    
+
     public function create()
     {
         return view('category.create');
@@ -36,7 +38,7 @@ class CategoryController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'active' => $request->active,
-            ]);            
+            ]);
             Session::flash('success', 'test session');
         } catch (Exception $e) {
             report($e);
@@ -44,16 +46,42 @@ class CategoryController extends Controller
         }
     }
 
-    // public function edit($id)
-    // {
-    //     //
-    //     return view('category.edit');
-    // }
+    public function edit(Category $category)
+    {
+        return view('category.edit', [
+            'category' => $category,
+        ]);
+    }
 
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
+    public function update(Request $request, Category $category)
+    {
+        try {
+            $rules = [
+                'title' => [
+                    'required',
+                    Rule::unique('categories')->ignore($category),
+                ],
+                'description' => 'nullable|max:100',
+                'active' => 'required|boolean',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $category->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'active' => $request->active,
+            ]);
+            Session::flash('success', trans('category.message.was_updated'));
+        } catch (Exception $e) {
+            report($e);
+            Session::flash('error', trans('category.message.try_again'));
+        }
+    }
 
     // public function destroy($id)
     // {
