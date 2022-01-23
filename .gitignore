@@ -12,4 +12,7 @@ npm-debug.log
 yarn-error.log
 public/mix-manifest.json
 public/js/app.js
+public/js/app.js.LICENSE.txt
+public/js/vue.js
+public/js/vue.js.LICENSE.txt
 public/css/app.css

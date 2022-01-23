@@ -25,7 +25,11 @@ Route::middleware('auth')->group(function () {
         'as' => 'admin.',
         'middleware' => ['role:' . config('constants.role.admin')]
     ], function () {
-        Route::get('home', 'HomeController@index')->name('home');
+        Route::get('/', function() {
+            dd('This is admin page');
+        });
+        Route::resource('categories', 'CategoryController')->except('show');
+        Route::put('category/{category}/active', 'UpdateActive')->name('categories.updateActive');
     });
     // Client
     Route::group([

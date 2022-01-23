@@ -2,10 +2,18 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import 'variables';
+// @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Admin-LTE
 @import "~admin-lte/build/scss/AdminLTE.scss";
+
+//required-star
+.required{
+    &::after{
+        content:" *";
+        color: red;
+    }
+}
