@@ -13,6 +13,8 @@ return [
     'button' => [
         'create' => 'Create',
         'edit' => 'Edit',
+        'delete' => 'Delete',
+        'cancel' => 'Cancel',
     ],
     'switch' => [
         config('constants.status.public') => 'Active',

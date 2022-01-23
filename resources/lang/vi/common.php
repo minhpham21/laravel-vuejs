@@ -13,6 +13,8 @@ return [
     'button' => [
         'create' => 'Tạo mới',
         'edit' => 'Chỉnh sửa',
+        'delete' => 'Xoá',
+        'cancel' => 'Hủy bỏ',
     ],
     'switch' => [
         config('constants.status.public') => 'Bật',
