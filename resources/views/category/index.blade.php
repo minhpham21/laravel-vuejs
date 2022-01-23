@@ -110,6 +110,7 @@
                 });
             })
             .catch((err) => {
+                e.checked = !e.checked
                 Toast.fire({
                     icon: 'error',
                     title: "@lang('category.message.try_again')",

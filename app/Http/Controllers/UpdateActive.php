@@ -13,8 +13,10 @@ class UpdateActive extends Controller
             //code...
             $category->active = $category->active ? false : true;
             $category->save();
+            return response('success', 200);
         } catch (Exception $e) {
             report($e);
+            return response('error', 400);
         }
     }
 }
