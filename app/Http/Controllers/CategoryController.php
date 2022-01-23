@@ -83,8 +83,16 @@ class CategoryController extends Controller
         }
     }
 
-    // public function destroy($id)
-    // {
-    //     //
-    // }
+    public function destroy(Category $category)
+    {
+        try {
+            $category->delete();
+            Session::flash('success', trans('category.message.was_deleted'));
+        } catch (Exception $e) {
+            report($e);
+            Session::flash('error', trans('category.message.try_again'));
+        }
+
+        return back();
+    }
 }

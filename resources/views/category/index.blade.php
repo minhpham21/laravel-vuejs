@@ -35,7 +35,7 @@
                 <div class="card-body table-responsive">
                     <div class="row">
                         <div class="col-6">
-                            <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" data-toggle="modal" data-target="#modal-default" title="{{trans('common.button.create')}}">
+                            <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" title="{{trans('common.button.create')}}">
                                 <i class="fas fa-plus-circle"></i>&nbsp;@lang('common.button.create')
                             </a>
                         </div>
@@ -75,8 +75,11 @@
                                         </div>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" data-toggle="modal" data-target="#modal-default" title="{{ trans('common.button.edit') }}">
+                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}">
                                             <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" >
+                                            <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -91,6 +94,29 @@
                 </div>
             </div>
             <!-- ./list -->
+
+            {{-- modal --}}
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">@lang('category.title.delete')</h4>
+                        </div>
+                        <form action="" method="POST" id="form-delete">
+                            @method('DELETE')
+                            @csrf
+                            <div class="modal-body col-sm-12">
+                                <h6 class="mt-4 mb-4">@lang('category.message.confirm_delete')</h6>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">@lang('common.button.cancel')</button>
+                                <button type="submit" class="btn btn-danger">@lang('common.button.delete')</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- ./modal --}}
             
         </div>
     </div>
