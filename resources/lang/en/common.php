@@ -12,6 +12,7 @@ return [
     ],
     'button' => [
         'create' => 'Create',
+        'edit' => 'Edit',
     ],
     'switch' => [
         config('constants.status.public') => 'Active',

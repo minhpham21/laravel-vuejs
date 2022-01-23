@@ -12,6 +12,7 @@ return [
     ],
     'button' => [
         'create' => 'Tạo mới',
+        'edit' => 'Chỉnh sửa',
     ],
     'switch' => [
         config('constants.status.public') => 'Bật',
