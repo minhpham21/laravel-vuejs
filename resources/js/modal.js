@@ -31,7 +31,7 @@ Modal.prototype.setEvents = function () {
     if (this.frame[0] != undefined) {
         this.frame[0].onload = function () {
             setTimeout(() => {
-                if (this.contentWindow.document.getElementById('wrapper') === null)
+                if (this.contentDocument.body.innerHTML == '')
                     window.parent.location = window.parent.location
 
                 console.log('height frame', this.contentDocument.body.scrollHeight);
