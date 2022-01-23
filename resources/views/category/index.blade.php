@@ -43,7 +43,7 @@
                             <div class="float-right">
                                 <form action="" method="GET">
                                     <select onchange="this.form.submit()" name="limit" class="form-control form-control-sm">
-                                        <option value="10" {{ old('limit') == 10 ? 'selected' : '' }}>10</option>
+                                        <option value="10" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
                                         <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
                                         <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
                                     </select>

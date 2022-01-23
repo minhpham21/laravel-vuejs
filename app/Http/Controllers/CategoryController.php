@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $request->flash();
-        $limit = (is_numeric($request->limit)) ? (int) $request->limit : 10;
+        $limit = (is_numeric($request->limit)) ? (int) $request->limit : 15;
         $categories = Category::orderBy('id', 'asc')
             ->paginate($limit);
 
