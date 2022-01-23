@@ -39,10 +39,10 @@ class CategoryController extends Controller
                 'description' => $request->description,
                 'active' => $request->active,
             ]);
-            Session::flash('success', 'test session');
+            Session::flash('success', trans('category.message.was_created'));
         } catch (Exception $e) {
             report($e);
-            Session::flash('error', 'test session');
+            Session::flash('error', trans('category.message.try_again'));
         }
     }
 
