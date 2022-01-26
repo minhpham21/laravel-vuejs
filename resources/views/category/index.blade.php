@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('title', trans('category.title.list'))
 @section('content-header', trans('category.title.list'))
-
+@section('select2')
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -16,16 +19,40 @@
             {{-- ./iframe --}}
 
             <!-- filter -->
-            <div class="card card-default card-primary card-outline collapsed-card">
+            <div class="card card-default card-primary card-outline">
                 <div class="card-header">
                     <span class="card-title text-lg-left font-weight-bold">
                         <i class="fa fa-filter" aria-hidden="true"></i>&nbsp;@lang('common.title.filter')
                     </span>
                     <div class="card-tools">
-                        <button class="btn btn-tool" type="button" data-card-widget="collapse" aria-expanded="true"><i class="fas fa-plus"></i></button>
+                        <button class="btn btn-tool" type="button" data-card-widget="collapse" aria-expanded="true"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body">
+                    <form method="GET">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label>@lang('common.title.title')</label>
+                                <select class="select2 form-control" name="category_id"  data-placeholder="Select an option" data-allow-clear="true">
+                                    <option value=""></option>
+                                    @foreach ($categoryList as $key => $name)
+                                        <option value="{{ $key }}" {{ old('category_id') == $key ? 'selected' : '' }}>{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label>@lang('common.title.active')</label>
+                                <select class="custom-select" name="active">
+                                    @foreach (config('constants.status') as $statusValue)
+                                        <option value="{{$statusValue}}" {{ $statusValue == old('active') ? "selected" : "" }}>@lang('common.switch.'.$statusValue)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class=" col-md-3 mb-3 d-flex align-items-end">
+                                <button class="btn btn-primary" type="submit">Submit form</button>
+                            </div>
+                        </div>
+                    </form>                      
                 </div>
             </div>
             <!-- ./filter -->
@@ -70,7 +97,7 @@
                                     <td class="align-middle">{{$category->title}}</td>
                                     <td class="text-center align-middle">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.categories.updateActive', ['category'=> $category] ) }}">
+                                            <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.category.updateActive', ['category'=> $category] ) }}">
                                             <label class="custom-control-label" for="customSwitch_{{$category->id}}"></label>
                                         </div>
                                     </td>
@@ -123,7 +150,12 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
+        $('.select2').select2({
+            width: '100%'
+        });
+
         function updateStatus(e) {
             axios({
                 method: "PUT",
@@ -144,6 +176,6 @@
                 // alert("Can't update status");
                 console.log(err);
             });
-        }
+        };
     </script>
 @endsection
