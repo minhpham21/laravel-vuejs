@@ -102,10 +102,10 @@
                                         </div>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}">
+                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}" style="width: 33px;">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" >
+                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" style="width: 33px;">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
