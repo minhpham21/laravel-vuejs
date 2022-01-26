@@ -15,12 +15,17 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $request->flash();
+        $params = [
+            'id' => $request->input('category_id'),
+        ];
         $limit = (is_numeric($request->limit)) ? (int) $request->limit : 15;
         $categories = Category::orderBy('id', 'asc')
+            ->filter($params)
             ->paginate($limit);
 
         return view('category.index')
             ->with([
+                'categoryList' => Category::all()->pluck('title', 'id')->toArray(),
                 'categories' => $categories,
                 'total' => $categories->total(),
             ]);
