@@ -1,7 +1,3 @@
-require('./bootstrap');
-
-import { Modal } from "./modal";
-
 if ($('.modal').length >= 1) {
     var modal = new Modal('#modal-default', '.modal-trigger');
 }

@@ -1,4 +1,4 @@
-export function Modal(element, trigger, options) {
+function Modal(element, trigger, options) {
     var defaultOptions = {
         backdrop: true,
         keyboard: true,
