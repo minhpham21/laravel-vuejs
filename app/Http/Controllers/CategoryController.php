@@ -16,18 +16,21 @@ class CategoryController extends Controller
     {
         $request->flash();
         $params = [
-            'id' => $request->input('category_id'),
+            'category_id' => $request->input('category_id') ?? null,
+            'active' => $request->input('active') ?? null,
+            'limit' => (is_numeric($request->limit)) ? (int) $request->limit : 15,
         ];
-        $limit = (is_numeric($request->limit)) ? (int) $request->limit : 15;
+
         $categories = Category::orderBy('id', 'asc')
             ->filter($params)
-            ->paginate($limit);
+            ->paginate($params['limit']);
 
         return view('category.index')
             ->with([
                 'categoryList' => Category::all()->pluck('title', 'id')->toArray(),
                 'categories' => $categories,
                 'total' => $categories->total(),
+                'params' => $params,
             ]);
     }
 

@@ -11,7 +11,8 @@ class Category extends Model
 
     protected $guarded = ['id'];
     protected $filterable = [
-        'id'
+        'category_id' => 'id',
+        'active'
     ];
 
 }
