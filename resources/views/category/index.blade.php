@@ -43,6 +43,7 @@
                             <div class="col-md-2 mb-3">
                                 <label>@lang('common.title.active')</label>
                                 <select class="custom-select" name="active">
+                                    <option value="">All</option>
                                     @foreach (config('constants.status') as $statusValue)
                                         <option value="{{$statusValue}}" {{ $statusValue == old('active') ? "selected" : "" }}>@lang('common.switch.'.$statusValue)</option>
                                     @endforeach
@@ -68,13 +69,11 @@
                         </div>
                         <div class="col-6">
                             <div class="float-right">
-                                <form action="" method="GET">
-                                    <select onchange="this.form.submit()" name="limit" class="form-control form-control-sm">
-                                        <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
-                                        <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
-                                        <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
-                                    </select>
-                                </form>
+                                <select name="limit" class="form-control form-control-sm" id="limit">
+                                    <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
+                                    <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-12 mt-1">
@@ -116,7 +115,7 @@
                 </div>
                 <div class="card-footer clearfix">
                     <div class="pagination-sm m-0 float-right">
-                        {{ $categories->links() }}
+                        {{ $categories->appends($params)->links() }}
                     </div>
                 </div>
             </div>
@@ -154,6 +153,14 @@
     <script>
         $('.select2').select2({
             width: '100%'
+        });
+
+        $('#limit').change(function (e) { 
+            e.preventDefault();
+            let limit = $(this).val();
+            let link = replaceUrl(document.URL, "page", 1);
+            link = replaceUrl(link, "limit", limit);
+            location.href = link;
         });
 
         function updateStatus(e) {
