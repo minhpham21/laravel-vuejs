@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('title', trans('category.title.list'))
 @section('content-header', trans('category.title.list'))
-
+@section('select2')
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -16,16 +19,41 @@
             {{-- ./iframe --}}
 
             <!-- filter -->
-            <div class="card card-default card-primary card-outline collapsed-card">
+            <div class="card card-default card-primary card-outline">
                 <div class="card-header">
                     <span class="card-title text-lg-left font-weight-bold">
                         <i class="fa fa-filter" aria-hidden="true"></i>&nbsp;@lang('common.title.filter')
                     </span>
                     <div class="card-tools">
-                        <button class="btn btn-tool" type="button" data-card-widget="collapse" aria-expanded="true"><i class="fas fa-plus"></i></button>
+                        <button class="btn btn-tool" type="button" data-card-widget="collapse" aria-expanded="true"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body">
+                    <form method="GET">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label>@lang('common.title.title')</label>
+                                <select class="select2 form-control" name="category_id"  data-placeholder="Select an option" data-allow-clear="true">
+                                    <option value=""></option>
+                                    @foreach ($categoryList as $key => $name)
+                                        <option value="{{ $key }}" {{ old('category_id') == $key ? 'selected' : '' }}>{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label>@lang('common.title.active')</label>
+                                <select class="custom-select" name="active">
+                                    <option value="">All</option>
+                                    @foreach (config('constants.status') as $statusValue)
+                                        <option value="{{$statusValue}}" {{ $statusValue == old('active') ? "selected" : "" }}>@lang('common.switch.'.$statusValue)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class=" col-md-3 mb-3 d-flex align-items-end">
+                                <button class="btn btn-primary" type="submit">Submit form</button>
+                            </div>
+                        </div>
+                    </form>                      
                 </div>
             </div>
             <!-- ./filter -->
@@ -41,13 +69,11 @@
                         </div>
                         <div class="col-6">
                             <div class="float-right">
-                                <form action="" method="GET">
-                                    <select onchange="this.form.submit()" name="limit" class="form-control form-control-sm">
-                                        <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
-                                        <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
-                                        <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
-                                    </select>
-                                </form>
+                                <select name="limit" class="form-control form-control-sm" id="limit">
+                                    <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
+                                    <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-12 mt-1">
@@ -70,15 +96,15 @@
                                     <td class="align-middle">{{$category->title}}</td>
                                     <td class="text-center align-middle">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.categories.updateActive', ['category'=> $category] ) }}">
+                                            <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.category.updateActive', ['category'=> $category] ) }}">
                                             <label class="custom-control-label" for="customSwitch_{{$category->id}}"></label>
                                         </div>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}">
+                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}" style="width: 33px;">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" >
+                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" style="width: 33px;">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
@@ -89,7 +115,7 @@
                 </div>
                 <div class="card-footer clearfix">
                     <div class="pagination-sm m-0 float-right">
-                        {{ $categories->links() }}
+                        {{ $categories->appends($params)->links() }}
                     </div>
                 </div>
             </div>
@@ -123,7 +149,20 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
+        $('.select2').select2({
+            width: '100%'
+        });
+
+        $('#limit').change(function (e) { 
+            e.preventDefault();
+            let limit = $(this).val();
+            let link = replaceUrl(document.URL, "page", 1);
+            link = replaceUrl(link, "limit", limit);
+            location.href = link;
+        });
+
         function updateStatus(e) {
             axios({
                 method: "PUT",
@@ -144,6 +183,6 @@
                 // alert("Can't update status");
                 console.log(err);
             });
-        }
+        };
     </script>
 @endsection
