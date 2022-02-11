@@ -38,7 +38,7 @@ Modal.prototype.setEvents = function () {
                 this.height = this.contentDocument.body.scrollHeight != 0
                     ? this.contentDocument.body.scrollHeight + 'px'
                     : '450px';
-            }, 50);
+            }, 100);
         }
     }
 }
