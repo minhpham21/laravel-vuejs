@@ -27,7 +27,7 @@
     @yield('cssloader')
 </head>
 
-<body class="bg-white" style="overflow-y: hidden;">
+<body class="bg-white">
     <div id="wrapper">
         @yield('content')
     </div>

@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Category as CategoryRequest;
+use App\Helpers\Utils;
 
 class CategoryController extends Controller
 {
@@ -21,7 +22,7 @@ class CategoryController extends Controller
             'limit' => (is_numeric($request->limit)) ? (int) $request->limit : 15,
         ];
 
-        $categories = Category::orderBy('id', 'asc')
+        $categories = Category::orderBy('id', 'desc')
             ->filter($params)
             ->paginate($params['limit']);
 
@@ -31,12 +32,15 @@ class CategoryController extends Controller
                 'categories' => $categories,
                 'total' => $categories->total(),
                 'params' => $params,
+                'categoriesMap' => Utils::categoriesMap(Category::get(['id', 'title', 'parent_id' ,'active'])->toArray()),
             ]);
     }
 
     public function create()
     {
-        return view('category.create');
+        return view('category.create', [
+            'categoryList' => Category::all()->pluck('title', 'id')->toArray()
+        ]);
     }
 
     public function store(CategoryRequest $request)
@@ -46,6 +50,7 @@ class CategoryController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'active' => $request->active,
+                'parent_id' => $request->parent_id
             ]);
             Session::flash('success', trans('category.message.was_created'));
         } catch (Exception $e) {
@@ -58,6 +63,7 @@ class CategoryController extends Controller
     {
         return view('category.edit', [
             'category' => $category,
+            'categoryList' => Category::get()->pluck('title', 'id')->toArray(),
         ]);
     }
 
@@ -70,6 +76,11 @@ class CategoryController extends Controller
                     Rule::unique('categories')->ignore($category),
                 ],
                 'description' => 'nullable|max:100',
+                'parent_id' => [
+                    'nullable',
+                    'integer',
+                    Rule::in($category->get()->pluck('id'))
+                ],
                 'active' => 'required|boolean',
             ];
 
@@ -83,6 +94,7 @@ class CategoryController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'active' => $request->active,
+                'parent_id' => $request->parent_id,
             ]);
             Session::flash('success', trans('category.message.was_updated'));
         } catch (Exception $e) {
