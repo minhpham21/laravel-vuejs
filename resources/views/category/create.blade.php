@@ -35,6 +35,19 @@
                     <span class="text-danger">{{$errors->first('description')}}</span>
                 @endif
             </div>
+            <div class="form-group">
+                <label>Danh mục cha</label>
+                <select class="custom-select" name="parent_id">
+                    <option value="">Trống</option>
+                    @foreach ($categoryList as $key => $name)
+                        <option value="{{$key}}">{{$name}}</option>
+                    @endforeach
+                </select>
+
+                @if ($errors->has('parent_id'))
+                    <span class="text-danger">{{$errors->first('parent_id')}}</span>
+                @endif
+            </div>
             <div class="form-group row">
                 <label class="col-3">@lang('common.title.active')</label>
                 <div class="col-3 pl-0">

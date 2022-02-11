@@ -58,68 +58,82 @@
             </div>
             <!-- ./filter -->
 
-            <!-- list -->
-            <div class="card">
-                <div class="card-body table-responsive">
-                    <div class="row">
-                        <div class="col-6">
-                            <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" title="{{trans('common.button.create')}}">
-                                <i class="fas fa-plus-circle"></i>&nbsp;@lang('common.button.create')
-                            </a>
+            <div class="row">
+                <div class=" col-md-9">
+                    <!-- list -->
+                    <div class="card">
+                        <div class="card-body table-responsive">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a data-url="{{ route('admin.categories.create') }}" href="" role="button" class="btn btn-primary modal-trigger" title="{{trans('common.button.create')}}">
+                                        <i class="fas fa-plus-circle"></i>&nbsp;@lang('common.button.create')
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <div class="float-right">
+                                        <select name="limit" class="form-control form-control-sm" id="limit">
+                                            <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
+                                            <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
+                                            <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <span class="text-secondary">{{trans_choice('common.title.total', $total)}}</span>
+                                </div>
+                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center align-middle" style="width: 15%;">#</th>
+                                        <th class="text-center align-middle" style="width: 45%;">@lang('common.title.title')</th>
+                                        <th class="text-center align-middle" style="width: 20%;">@lang('common.title.active')</th>
+                                        <th class="text-center align-middle" style="width: 20%;">@lang('common.title.action')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($categories as $category)
+                                        <tr>
+                                            <td class="text-center align-middle">{{$category->id}}</td>
+                                            <td class="align-middle">{{$category->title}}</td>
+                                            <td class="text-center align-middle">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.category.updateActive', ['category'=> $category] ) }}">
+                                                    <label class="custom-control-label" for="customSwitch_{{$category->id}}"></label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}" style="width: 33px;">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" style="width: 33px;">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-6">
-                            <div class="float-right">
-                                <select name="limit" class="form-control form-control-sm" id="limit">
-                                    <option value="15" {{ old('limit') == 15 ? 'selected' : '' }}>15</option>
-                                    <option value="50" {{ old('limit') == 50 ? 'selected' : '' }}>50</option>
-                                    <option value="100" {{ old('limit') == 100 ? 'selected' : '' }}>100</option>
-                                </select>
+                        <div class="card-footer clearfix">
+                            <div class="pagination-sm m-0 float-right">
+                                {{ $categories->appends($params)->links() }}
                             </div>
                         </div>
-                        <div class="col-12 mt-1">
-                            <span class="text-secondary">{{trans_choice('common.title.total', $total)}}</span>
-                        </div>
                     </div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-center align-middle" style="width: 15%;">#</th>
-                                <th class="text-center align-middle" style="width: 45%;">@lang('common.title.title')</th>
-                                <th class="text-center align-middle" style="width: 20%;">@lang('common.title.active')</th>
-                                <th class="text-center align-middle" style="width: 20%;">@lang('common.title.action')</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($categories as $category)
-                                <tr>
-                                    <td class="text-center align-middle">{{$category->id}}</td>
-                                    <td class="align-middle">{{$category->title}}</td>
-                                    <td class="text-center align-middle">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" {{$category->active ? "checked=checked" : ''}} class="custom-control-input" id="customSwitch_{{$category->id}}" onclick="updateStatus(this)"  data-url="{{ route('admin.category.updateActive', ['category'=> $category] ) }}">
-                                            <label class="custom-control-label" for="customSwitch_{{$category->id}}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <a data-url="{{ route('admin.categories.edit', ['category' => $category]) }}" href="" role="button" class="btn btn-default btn-sm modal-trigger" title="{{ trans('common.button.edit') }}" style="width: 33px;">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-delete" title="{{ trans('common.button.delete') }}" onclick="document.getElementById('form-delete').setAttribute('action', '{{ route('admin.categories.destroy', ['category' => $category]) }}')" style="width: 33px;">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <!-- ./list -->
                 </div>
-                <div class="card-footer clearfix">
-                    <div class="pagination-sm m-0 float-right">
-                        {{ $categories->appends($params)->links() }}
+                <div class="col-md-3">
+                    <div class="card position-sticky" style="top: 10px;">
+                        <div class="card-header">
+                            <span class="card-title text-lg-left font-weight-bold">Sơ đồ danh mục sản phẩm</span>
+                        </div>
+                        <div class="card-body table-responsive" id ="categories_map">
+                            {!! $categoriesMap !!}
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- ./list -->
 
             {{-- modal --}}
             <div class="modal fade" id="modal-delete">
@@ -169,6 +183,7 @@
                 url: e.dataset.url,
             })
             .then((result) => {
+                $('#categories_map')[0].innerHTML = result.data.data;
                 Toast.fire({
                     icon: 'success',
                     title: "@lang('category.message.was_status_updated')",
