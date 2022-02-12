@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Category;
 
-class Category extends FormRequest
+class StoreCategory extends FormRequest
 {
     public function authorize()
     {
@@ -14,7 +15,7 @@ class Category extends FormRequest
 
     public function rules()
     {
-        $categoresIds =  \App\Category::get()->pluck('id');
+        $categoresIds = Category::get()->pluck('id');
         return [
             'title' => 'required|max:25|unique:categories',
             'description' => 'nullable|max:100',

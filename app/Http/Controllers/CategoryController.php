@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\Category as CategoryRequest;
+use App\Http\Requests\StoreCategory;
 use App\Helpers\Utils;
 
 class CategoryController extends Controller
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(CategoryRequest $request)
+    public function store(StoreCategory $request)
     {
         try {
             Category::create([
