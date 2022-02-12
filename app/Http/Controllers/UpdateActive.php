@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use Exception;
 use App\Helpers\Utils;
+use Illuminate\Http\JsonResponse;
 
 class UpdateActive extends Controller
 {
-    public function __invoke(Category $category)
+    public function __invoke(Category $category): JsonResponse
     {
         try {
             $category->active = $category->active ? false : true;
