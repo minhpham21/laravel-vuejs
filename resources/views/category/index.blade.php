@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 @section('title', trans('category.title.list'))
 @section('content-header', trans('category.title.list'))
 @section('select2')

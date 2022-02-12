@@ -21,10 +21,10 @@
 </head>
 <body class="hold-transition sidebar-mini">
     <div id="app" class="wrapper">
-        @include('layouts.navbar')
-        @include('layouts.sidebar')
-        @include('layouts.content')
-        @include('layouts.footer')
+        @include('layouts.admin.navbar')
+        @include('layouts.admin.sidebar')
+        @include('layouts.admin.content')
+        @include('layouts.admin.footer')
     </div>
     <!-- jQuery 3 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
