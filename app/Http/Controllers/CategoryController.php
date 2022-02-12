@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCategory;
+use App\Http\Requests\UpdateCategory;
 use App\Helpers\Utils;
 
 class CategoryController extends Controller
@@ -67,29 +66,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategory $request, Category $category)
     {
         try {
-            $rules = [
-                'title' => [
-                    'required',
-                    Rule::unique('categories')->ignore($category),
-                ],
-                'description' => 'nullable|max:100',
-                'parent_id' => [
-                    'nullable',
-                    'integer',
-                    Rule::in($category->get()->pluck('id'))
-                ],
-                'active' => 'required|boolean',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
-            }
-
             $category->update([
                 'title' => $request->title,
                 'description' => $request->description,
