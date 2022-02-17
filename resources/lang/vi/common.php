@@ -9,6 +9,7 @@ return [
         'filter' => 'Bộ lọc',
         'action' => 'Hành động',
         'total' => '{0}Chưa có mục nào|[1,*]Tổng: :count mục',
+        'price' => 'Giá tiền',
     ],
     'button' => [
         'create' => 'Tạo mới',

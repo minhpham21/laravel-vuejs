@@ -12,9 +12,16 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('admin.categories.index') }}"
-                        class="nav-link active">
+                        class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bookmark"></i>
                         <p>@lang('category.title.list')</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.products.index') }}"
+                        class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-layer-group"></i>
+                        <p>{{ trans('product.title.list') }}</p>
                     </a>
                 </li>
             </ul>

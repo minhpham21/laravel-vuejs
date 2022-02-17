@@ -9,6 +9,7 @@ return [
         'filter' => 'Filter',
         'action' => 'Action',
         'total' => '{0,1}Total: :count entry|[2,*]Total: :count entries',
+        'price' => 'Giá tiền',
     ],
     'button' => [
         'create' => 'Create',
