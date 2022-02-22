@@ -28,8 +28,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function() {
             dd('This is admin page');
         });
+        //Category
         Route::resource('categories', 'CategoryController')->except('show');
         Route::put('category/{category}/active', 'UpdateActive')->name('category.updateActive');
+        //Product
+        Route::resource('products', 'ProductController')->except('show');
     });
     // Client
     Route::group([

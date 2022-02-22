@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+use Illuminate\Http\UploadedFile;
 
 class Utils
 {
@@ -24,5 +25,11 @@ class Utils
             $html .= "<span>" . str_repeat('|----', $item['level']) . " {$item['title']} </span> <br>";
         }
         return $html;
+    }
+
+    public static function uploadedFile(UploadedFile $file, string $folder, string $disk)
+    {
+        $path = $file->store($folder, $disk);
+        return str_replace($folder . "/", '', $path);
     }
 }

@@ -41,7 +41,7 @@ class LoginController extends Controller
     protected function authenticated(\Illuminate\Http\Request $request, $user)
     {
         $this->redirectTo = $user->isAdmin() 
-            ? route('admin.home')
+            ? route('admin.categories.index')
             : route('client.welcome');
     }
 }
